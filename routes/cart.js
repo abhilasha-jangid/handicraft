@@ -10,9 +10,7 @@ var User = require('./models/users');
 var Product = require('./models/products');
 
 cartRoutes.post('/addCart',authenticate.verifyUser, function(req, res)
-{    
-    
-            
+{                
             Product.find({"name" : req.body.product_name} ,function(err1,product_info)
             {
                 if(err1)
@@ -37,6 +35,4 @@ cartRoutes.post('/addCart',authenticate.verifyUser, function(req, res)
             })
         
 });
-
-
 module.exports = cartRoutes;

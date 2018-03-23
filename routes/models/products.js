@@ -22,7 +22,16 @@ const productSchema = new Schema({
     {
         type : Number,
         require : true
-    }
+    },
+    featured:
+    {
+        type : Boolean
+    },
+    comment :
+    [{
+       type: mongoose.Schema.Types.ObjectId,
+       ref : 'Comment'
+    }]
 });
 
 var Products = mongoose.model('Product', productSchema);

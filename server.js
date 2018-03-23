@@ -10,6 +10,7 @@ var categories = require('./routes/category');
 var products = require('./routes/product');
 var carts = require('./routes/cart');
 var orders = require('./routes/order');
+var comments = require('./routes/comment');
 
 var app = express();
 
@@ -22,7 +23,7 @@ app.use('/category',categories);
 app.use('/product',products);
 app.use('/cart',carts);
 app.use('/order',orders);
-
+app.use('/comment',comments);
 
 
 app.listen(port,function(err)
@@ -34,7 +35,7 @@ app.listen(port,function(err)
     console.log('app is running at ' + port);
 })
 
-mongoose.connect('mongodb://localhost/handicraft' , function(err,db)
+mongoose.connect('mongodb://127.0.0.1/handicraft' , function(err,db)
 {
     if(err)
     {

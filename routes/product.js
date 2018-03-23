@@ -8,6 +8,7 @@ productRoutes.use(bodyParser.json());
 
 var Category = require('./models/categories');
 var Product = require('./models/products');
+var User = require('./models/users');
 
 productRoutes.post('/addProduct',authenticate.checkAdmin, function(req, res)
 {    
@@ -51,6 +52,62 @@ productRoutes.post('/addProduct',authenticate.checkAdmin, function(req, res)
         }
     })
 });
+
+
+productRoutes.post('/productDetail', function(req, res)
+{    
+    Product.find({"name": req.body.product_name},{_id:0,featured:0,__v:0})
+    .populate('comment',{_id:0,__v:0,updatedAt:0})
+    .exec(function(err ,prod)
+    {
+        if(err)
+        {
+          throw err;  
+        }
+        else 
+        {
+            if(prod.length == 0)
+            {
+                res.send("no product exist");
+            }
+            else
+            {
+                    res.send(prod);
+            }
+        }
+    })
+});
+
+productRoutes.post('/productDetails', function(req, res)
+{    
+    Product.find({"name": req.body.product_name},{_id:0,featured:0,__v:0})
+    .populate({
+        path : "comment",
+        populate :{
+            path : "user",
+            model: "User"
+        }
+    })
+    .exec(function(err ,prod)
+    {
+        if(err)
+        {
+          throw err;  
+        }
+        else 
+        {
+            if(prod.length == 0)
+            {
+                res.send("no product exist");
+            }
+            else
+            {
+                    res.send(prod);
+            }
+        }
+    })
+});
+
 
 
 module.exports = productRoutes;
