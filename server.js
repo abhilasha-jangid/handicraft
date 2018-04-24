@@ -3,8 +3,10 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
+var cors = require('cors');
 
-var port = process.env.PORT||8080;
+
+var port = process.env.PORT||3000;
 var users = require('./routes/user');
 var categories = require('./routes/category');
 var products = require('./routes/product');
@@ -24,6 +26,8 @@ app.use('/product',products);
 app.use('/cart',carts);
 app.use('/order',orders);
 app.use('/comment',comments);
+app.use(express.static('public'));
+app.use(cors());
 
 
 app.listen(port,function(err)

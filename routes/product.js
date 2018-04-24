@@ -78,6 +78,10 @@ productRoutes.post('/productDetail', function(req, res)
     })
 });
 
+
+
+
+
 productRoutes.post('/productDetails', function(req, res)
 {    
     Product.find({"name": req.body.product_name},{_id:0,featured:0,__v:0})

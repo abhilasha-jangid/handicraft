@@ -8,7 +8,7 @@ const userSchema = new Schema({
     },
     pincode :
     {
-        type : Number,
+        type : String,
         required : true
     },
     password:

@@ -12,10 +12,12 @@ userRoutes.use(bodyParser.json());
 
 var User = require('./models/users');
 
-userRoutes.post('/login', function(req, res)
+userRoutes.post('/login',function(req, res)
 {    
     User.find({'phone' : req.body.phone , 'password' : req.body.password}, function(err , old_user)
     {
+        console.log("phone",req.body.phone);
+        console.log("password",req.body.password);
         if(old_user.length != 0)
         {
             var token = authenticate.getToken({_id: old_user[0]._id});
@@ -25,7 +27,7 @@ userRoutes.post('/login', function(req, res)
         }
         else
         {
-            res.send('username password invalid do signup first');
+            res.json({success: false, status: 'username password invalid do signup first'});
         }
     })
 });
@@ -38,7 +40,6 @@ userRoutes.post('/signUp', function(req, res)
         console.log(user);
         if(user.length == 0)
         {
-            console.log('c');
             User.create(req.body , function(err,new_user)
             {
                 console.log(new_user);
