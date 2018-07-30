@@ -12,6 +12,11 @@ userRoutes.use(bodyParser.json());
 
 var User = require('./models/users');
 
+userRoutes.get('/jwt', authenticate.verifyUser, function(req, res)
+{    
+    res.json({success : true ,status : "done jwt token"})
+});
+
 userRoutes.post('/login',function(req, res)
 {    
     User.find({'phone' : req.body.phone , 'password' : req.body.password}, function(err , old_user)
@@ -23,10 +28,13 @@ userRoutes.post('/login',function(req, res)
             var token = authenticate.getToken({_id: old_user[0]._id});
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
-            res.json({success: true, token: token, status: 'You are successfully logged in!'});
+            res.json({success: true, token: token, status: old_user[0]["name"]});
         }
         else
         {
+            res.statusCode = 401;
+            res.setHeader('Content-Type', 'application/json');
+            res.json({success: false, token:'none' , status: 'Invalid Username or Password'})
             res.json({success: false, status: 'username password invalid do signup first'});
         }
     })

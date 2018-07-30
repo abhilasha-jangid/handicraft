@@ -11,7 +11,7 @@ var Comment = require('./models/comments');
 
 commentRoutes.post('/addComment',authenticate.verifyUser, function(req, res)
 {    
-    Product.find({"name": req.body.product_name}, function(err , pro)
+    Product.find({"_id": req.body.inId}, function(err , pro)
     {
         console.log('product is',pro);
         if(err)
@@ -46,7 +46,9 @@ commentRoutes.post('/addComment',authenticate.verifyUser, function(req, res)
                             }
                             else
                             {
-                                res.send('comment added sucessfully');
+                                res.json({
+                                    'success' : true,
+                                    'data':'comment added sucessfully'});
                             }
                         });
                     }

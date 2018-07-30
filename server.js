@@ -13,21 +13,25 @@ var products = require('./routes/product');
 var carts = require('./routes/cart');
 var orders = require('./routes/order');
 var comments = require('./routes/comment');
+var promotions = require('./routes/promotion');
+var artists = require('./routes/artist');
 
 var app = express();
 
 app.use(logger('dev'));
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/user',users);
 app.use('/category',categories);
 app.use('/product',products);
+app.use('/promotion',promotions);
+app.use('/artist',artists);
 app.use('/cart',carts);
 app.use('/order',orders);
 app.use('/comment',comments);
 app.use(express.static('public'));
-app.use(cors());
 
 
 app.listen(port,function(err)

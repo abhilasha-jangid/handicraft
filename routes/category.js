@@ -11,61 +11,44 @@ categoryRoutes.use(bodyParser.json());
 
 var Category = require('./models/categories');
 
-categoryRoutes.get('/showCategories',  function(req, res)
-{    
-    Category.find({}, function(err , all_category)
-    {
-        if(err)
-        {
-          throw err;  
+categoryRoutes.get('/showCategories', function (req, res) {
+    Category.find({}, function (err, all_category) {
+        if (err) {
+            throw err;
         }
-        else
-        {
-            var arr=[];
-            for(var i=0;i<all_category.length;i++)
-            {
-                arr.push(all_category[i].name);
-            }
+        else {
             res.json({
-                "success" : true,
-                "data" : arr
+                "success": true,
+                "data": all_category
             });
         }
     })
 });
 
-categoryRoutes.post('/selectCategories',  function(req, res)
-{    
-    Category.find({'name' : req.body.name})
-        .populate('product',{_id : 0,name:1,image_url : 1,price : 1})
-        .exec( function(err , categoryProduct)
-    {
-        if(err)
-        {
-          throw err;  
+categoryRoutes.post('/selectCategories', function (req, res) {
+    Category.find({ '_id': req.body.inId })
+        .populate('product', { name: 1, image_url: 1, price: 1 })
+        .exec(function (err, categoryProduct) {
+            if (err) {
+                throw err;
+            }
+            else {
+                res.json({
+                    "success": true,
+                    "data": categoryProduct[0].product
+                });
+            }
+        })
+});
+categoryRoutes.post('/addCategory', authenticate.checkAdmin, function (req, res) {
+    Category.create(req.body, function (err, cate) {
+        if (err) {
+            throw err;
         }
-        else
-        {
-            res.json({
-                "success" : true,
-                "data" : categoryProduct[0].product
-            });
+        else {
+            res.send(cate);
         }
     })
-});
-categoryRoutes.post('/addCategory',authenticate.checkAdmin,function(req,res)
-{
-    Category.create(req.body,function(err,cate)
-{
-    if(err)
-    {
-        throw err;
-    }
-    else
-    {
-        res.send(cate);
-    }
-})
 })
 
 
