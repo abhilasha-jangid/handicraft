@@ -50,6 +50,16 @@ categoryRoutes.post('/addCategory', authenticate.checkAdmin, function (req, res)
         }
     })
 })
+categoryRoutes.post('/updateCategory', authenticate.checkAdmin, function (req, res) {
+    Category.update({"name": req.body.inCategoryName},{$set:{category_image : req.body.inCategoryImage}}, function (err, cate) {
+        if (err) {
+            throw err;
+        }
+        else {
+            res.send(cate);
+        }
+    })
+})
 
 
 module.exports = categoryRoutes;
